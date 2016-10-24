@@ -16,9 +16,7 @@
     "noLegacyStyle": true,
     "editors": [{
         name: "Peter Boström",
-        email: "pbos@google.com",
         company: "Google",
-        companyURL: "https://google.com",
       },
       // Add additional editors here.
       // https://github.com/w3c/respec/wiki/editors
@@ -47,7 +45,18 @@
 <body>
   <section id="abstract">
     <p>
-      This specification does neat stuff.
+      This specification extends MediaStreamTrack as defined in
+      [[!GETUSERMEDIA]] to provide an media-content-type hint attribute. This
+      optional hint permits <code>MediaStreamTrack</code> consumers such as
+      <code>PeerConnection</code> or <code>MediaRecorder</code> to encode or
+      process contained media with methods more appropriate to the type of
+      content that is being consumed.
+    </p>
+    <p>
+      Adding a media-content-type hint provides a way for an application to help
+      track consumers make more informed decision of what encoder parameters and
+      processing algorithms to use on the consumed content.
+    <p>
     </p>
   </section>
   <section id="sotd">
@@ -58,28 +67,131 @@
   <section id="introduction">
     <h2>Introduction</h2>
     <p>
-      See <a href="https://github.com/w3c/respec/wiki/User's-Guide">ReSpec's
-      user guide</a> for how to get started!
+      Algorithms used for processing speech and music differ greatly.
+      Echo-cancellation algorithms developed for speech-type content might not
+      work well on music, and noise-suppression algorithms might remove drum
+      snares or other "noisy" content. While this makes speech more intelligible
+      it is less appropriate for music signals.
+    </p>
+    <p>
+      For video, webcam content often require denoising and is often
+      intelligible even when downscaled or with high quantization levels.
+      Screencast content of presentations or webpages with a lot of text content
+      is completely unintelligible if the quantization levels are too high or
+      if the content is downscaled or otherwise blurry.
+    </p>
+    <p>
+      Without automatic detection of media content, a
+      <code>MediaStreamTrack</code> consumer can only make an educated guess.
+      This guess may be based on assuming that screencast content (such as
+      chrome.desktopCapture) contains text content and must use low quantization
+      levels, and drop frames extensively to meet bitrate requirements. Another
+      assumption is that regular USB video devices provide webcam video, and
+      higher quantization levels and downscaling are acceptible.
+    </p>
+    <p>
+      While usually appropriate this educated guess leads to sub-optimal
+      settings when incorrect. This manifests as high framedropping when
+      screencasting a movie or streaming a video game. It leads to too-blurry
+      content when treating HDMI video-capture cards as webcam content as
+      webpage text is either quantized or downscaled to meet bitrate
+      requirements.
+    </p>
+    <p>
+      In some cases the web application can make a more-educated guess or take
+      user input to inform consumers of what kind of content is being encoded. A
+      web application that streams video-game content would be able to preserve
+      fluid motion from desktop capture at the cost of individual frame detail.
+      A music-studio application would be able to prevent noise suppression from
+      removing snares from a music track.
+    </p>
+    <p>
+      These settings are not intended to replace encoder-level settings
+      completely but rather complement them with a simpler hint that does not
+      require broad knowledge of video encoders, audio-processing steps or
+      more extensive tuning.
     </p>
   </section>
   <section data-dfn-for="Foo">
-    <h2>Start your spec!</h2>
+    <h2>Extension to MediaStreamTrack</h2>
     <pre class="idl">
-    interface Foo {
-      attribute Bar bar;
-      void doTheFoo();
+    interface MediaStreamTrack {
+      // ...
+      attribute DOMString mediaContentTypeHint;
     };
     </pre>
     <p>
-      See <a href="https://github.com/w3c/respec/wiki/WebIDL-Guide">ReSpec's
-      WebIDL guide</a> for how to write [[!WebIDL-2]] interfaces!
+      The <dfn>mediaContentTypeHint</dfn> attribute may be set from the web
+      application to override or provide a hint of what type of content is
+      contained within the track. This property is initially set to either
+      <code>null</code> or an implementation-defined guess, likely based on the
+      track source.
     </p>
     <p>
-      The <dfn>doTheFoo</dfn> method.
+      For audio and video the defined types are as defined below when
+      <code>MediaStreamTrack.kind</code> is set to <code>"audio"</code> and
+      <code>"video"</code> respectively. Setting an invalid value shall reset
+      the attribute to its initial value.
     </p>
     <p>
-      The <dfn>bar</dfn> attribute.
+      Setting <code>mediaContentTypeHint</code> to <code>null</code> should
+      reset it to the track's initial value.
     </p>
+    <h3>Audio content types</h3>
+    <pre class="idl">
+    enum AudioContentTypeHint {
+      "speech",
+      "music"
+    };
+    </pre>
+    <p>
+      Audio content types are only applicable when
+      <code>MediaStreamTrack.kind</code> is set to <code>"audio"</code> and
+      contains an audio track. <code>mediaContentTypeHint</code> should only
+      accept values defined within <code>AudioContentTypeHint</code> when being
+      applied to an audio track.
+    </p>
+    <table class="simple"><tbody><tr><th colspan="2">Enumeration description</th></tr>
+      <tr><td><code id="idl-def-AudioContentTypeHint.speech">speech</code></td><td><p>
+        The track should be treated as if it contains speech data. Consuming
+        this signal it may be appropriate to apply noise suppression or boosting
+        the intelligibility of the incoming signal.
+      </p></td></tr>
+      <tr><td><code id="idl-def-AudioContentTypeHint.music">music</code></td><td><p>
+        The track should be treated as if it contains music data. Generally this
+        might imply tuning or turning off audio-processing components that are
+        used to process speech data to prevent the audio from being distorted.
+      </p></td></tr>
+    </tbody></table>
+    <h3>Video content types</h3>
+    <pre class="idl">
+    enum VideoContentTypeHint {
+      "fluid",
+      "text"
+    };
+    </pre>
+    <p>
+      Video content types are only applicable when
+      <code>MediaStreamTrack.kind</code> is set to <code>"video"</code> and
+      contains a video track. <code>mediaContentTypeHint</code> should only
+      accept values defined within <code>VideoContentTypeHint</code> when being
+      applied to an video track.
+    </p>
+    <table class="simple"><tbody><tr><th colspan="2">Enumeration description</th></tr>
+      <tr><td><code id="idl-def-VideoContentTypeHint.fluid">fluid</code></td><td><p>
+        The track should be treated as if it contains fluid video. This is
+        normally webcam video, movies or video games. Quantization artefacts and
+        downscaling is acceptible to preserve fluid motion while retaining
+        bitrates. During low bitrates when compromises have to be made, less
+        effort is spent on preserving edge quality and detail.
+      </p></td></tr>
+      <tr><td><code id="idl-def-VideoContentTypeHint.text">text</code></td><td><p>
+        The track should be treated as if it contains text. This is generally
+        applicable to presentations or web pages with text content and optimizes
+        for detail rather than smooth playback. Quantization artefacts or
+        downscaling that make small text unintelligible should be avoided.
+      </p></td></tr>
+    </tbody></table>
   </section>
 </body>
 
