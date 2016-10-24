@@ -167,7 +167,7 @@
     <pre class="idl">
     enum VideoContentTypeHint {
       "fluid",
-      "text"
+      "detailed"
     };
     </pre>
     <p>
@@ -185,11 +185,13 @@
         bitrates. During low bitrates when compromises have to be made, less
         effort is spent on preserving edge quality and detail.
       </p></td></tr>
-      <tr><td><code id="idl-def-VideoContentTypeHint.text">text</code></td><td><p>
-        The track should be treated as if it contains text. This is generally
-        applicable to presentations or web pages with text content and optimizes
-        for detail rather than smooth playback. Quantization artefacts or
-        downscaling that make small text unintelligible should be avoided.
+      <tr><td><code id="idl-def-VideoContentTypeHint.detail">detailed</code></td><td><p>
+        The track should be treated as if video details are extra important.
+        This is generally applicable to presentations or web pages with text
+        content, painting or line art. This setting would normally optimize for
+        detail in the resulting individual frames rather than smooth playback.
+        Quantization artefacts or downscaling that make small text or line art
+        unintelligible should be avoided.
       </p></td></tr>
     </tbody></table>
   </section>
