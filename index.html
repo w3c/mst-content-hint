@@ -16,7 +16,8 @@
     "noLegacyStyle": true,
     "editors": [{
         name: "Peter Boström",
-        company: "Google",
+        company: "Google Inc.",
+        companyURL: "https://google.com",
       },
       // Add additional editors here.
       // https://github.com/w3c/respec/wiki/editors
@@ -92,10 +93,9 @@
     <p>
       While usually appropriate this educated guess leads to sub-optimal
       settings when incorrect. This manifests as high framedropping when
-      screencasting a movie or streaming a video game. It leads to too-blurry
-      content when treating HDMI video-capture cards as webcam content as
-      webpage text is either quantized or downscaled to meet bitrate
-      requirements.
+      screencasting a movie or streaming a video game and leads to blurry
+      content when treating HDMI video-capture cards as webcams quantizing or
+      downscaling text to meet bitrate requirements.
     </p>
     <p>
       In some cases the web application can make a more-educated guess or take
@@ -175,7 +175,7 @@
       <code>MediaStreamTrack.kind</code> is set to <code>"video"</code> and
       contains a video track. <code>mediaContentTypeHint</code> should only
       accept values defined within <code>VideoContentTypeHint</code> when being
-      applied to an video track.
+      applied to a video track.
     </p>
     <table class="simple"><tbody><tr><th colspan="2">Enumeration description</th></tr>
       <tr><td><code id="idl-def-VideoContentTypeHint.fluid">fluid</code></td><td><p>
