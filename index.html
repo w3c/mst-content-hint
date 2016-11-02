@@ -119,11 +119,11 @@
     <pre class="idl">
     interface MediaStreamTrack {
       // ...
-      attribute DOMString mediaContentTypeHint;
+      attribute DOMString contentTypeHint;
     };
     </pre>
     <p>
-      The <dfn>mediaContentTypeHint</dfn> attribute may be set from the web
+      The <dfn>contentTypeHint</dfn> attribute may be set from the web
       application to override or provide a hint of what type of content is
       contained within the track. This property is initially set to either
       <code>null</code> or an implementation-defined guess, likely based on the
@@ -136,8 +136,8 @@
       the attribute to its initial value.
     </p>
     <p>
-      Setting <code>mediaContentTypeHint</code> to <code>null</code> should
-      reset it to the track's initial value.
+      Setting <code>contentTypeHint</code> to <code>null</code> should reset it
+      to the track's initial value.
     </p>
     <h3>Audio content types</h3>
     <pre class="idl">
@@ -149,7 +149,7 @@
     <p>
       Audio content types are only applicable when
       <code>MediaStreamTrack.kind</code> is set to <code>"audio"</code> and
-      contains an audio track. <code>mediaContentTypeHint</code> should only
+      contains an audio track. <code>contentTypeHint</code> should only
       accept values defined within <code>AudioContentTypeHint</code> when being
       applied to an audio track.
     </p>
@@ -175,9 +175,9 @@
     <p>
       Video content types are only applicable when
       <code>MediaStreamTrack.kind</code> is set to <code>"video"</code> and
-      contains a video track. <code>mediaContentTypeHint</code> should only
-      accept values defined within <code>VideoContentTypeHint</code> when being
-      applied to a video track.
+      contains a video track. <code>contentTypeHint</code> should only accept
+      values defined within <code>VideoContentTypeHint</code> when being applied
+      to a video track.
     </p>
     <table class="simple"><tbody><tr><th colspan="2">Enumeration description</th></tr>
       <tr><td><code id="idl-def-VideoContentTypeHint.fluid">fluid</code></td><td><p>
