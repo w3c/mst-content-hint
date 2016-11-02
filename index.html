@@ -130,9 +130,9 @@
     </p>
     <p>
       For audio and video the defined types are as defined below when
-      <code>MediaStreamTrack.kind</code> is set to <code>"audio"</code> and
-      <code>"video"</code> respectively. Setting an invalid value shall reset
-      the attribute to its initial value.
+      <code>MediaStreamTrack</code>'s <code>kind</code> attribute is set to
+      <code>"audio"</code> and <code>"video"</code> respectively. Setting an
+      invalid value shall reset the attribute to its initial value.
     </p>
     <p>
       Setting <code>contentTypeHint</code> to <code>null</code> should reset it
@@ -147,10 +147,10 @@
     </pre>
     <p>
       Audio content types are only applicable when
-      <code>MediaStreamTrack.kind</code> is set to <code>"audio"</code> and
-      contains an audio track. <code>contentTypeHint</code> should only
-      accept values defined within <code>AudioContentTypeHint</code> when being
-      applied to an audio track.
+      <code>MediaStreamTrack</code>'s <code>kind</code> attribute is set to
+      <code>"audio"</code> and contains an audio track.
+      <code>contentTypeHint</code> should only accept values defined within
+      <code>AudioContentTypeHint</code> when being applied to an audio track.
     </p>
     <table class="simple"><tbody><tr><th colspan="2">Enumeration description</th></tr>
       <tr><td><code id="idl-def-AudioContentTypeHint.speech">speech</code></td><td><p>
@@ -173,10 +173,10 @@
     </pre>
     <p>
       Video content types are only applicable when
-      <code>MediaStreamTrack.kind</code> is set to <code>"video"</code> and
-      contains a video track. <code>contentTypeHint</code> should only accept
-      values defined within <code>VideoContentTypeHint</code> when being applied
-      to a video track.
+      <code>MediaStreamTrack</code>'s <code>kind</code> attribute is set to
+      <code>"video"</code> and contains a video track.
+      <code>contentTypeHint</code> should only accept values defined within
+      <code>VideoContentTypeHint</code> when being applied to a video track.
     </p>
     <table class="simple"><tbody><tr><th colspan="2">Enumeration description</th></tr>
       <tr><td><code id="idl-def-VideoContentTypeHint.fluid">fluid</code></td><td><p>
