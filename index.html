@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>MediaStreamTrack Media Type Hints</title>
+  <title>MediaStreamTrack Content Hints</title>
   <script src="https://www.w3.org/Tools/respec/respec-w3c-common" class="remove"></script>
   <script class='remove'>
   "use strict";
@@ -11,8 +11,8 @@
   var respecConfig = {
     "doRDFa": false,
     "format": "markdown",
-    "githubAPI": "https://api.github.com/repos/pbos/mst-type-hint",
-    "issueBase": "https://www.github.com/pbos/mst-type-hint/issues/",
+    "githubAPI": "https://api.github.com/repos/pbos/mst-content-hint",
+    "issueBase": "https://www.github.com/pbos/mst-content-hint/issues/",
     "noLegacyStyle": true,
     "editors": [{
         name: "Peter Boström",
@@ -21,20 +21,20 @@
       // Add additional editors here.
       // https://github.com/w3c/respec/wiki/editors
     ],
-    "shortName": "mst-type-hint",
-    "edDraftURI": "https://pbos.github.io/mst-type-hint/",
-    "subjectPrefix": "[mst-type-hint]",
+    "shortName": "mst-content-hint",
+    "edDraftURI": "https://pbos.github.io/mst-content-hint/",
+    "subjectPrefix": "[mst-content-hint]",
     "otherLinks": [{
       "key": "Repository",
       "data": [{
         "value": "We are on GitHub.",
-        "href": "https://github.com/pbos/mst-type-hint"
+        "href": "https://github.com/pbos/mst-content-hint"
       }, {
         "value": "File a bug.",
-        "href": "https://github.com/pbos/mst-type-hint/issues"
+        "href": "https://github.com/pbos/mst-content-hint/issues"
       }, {
         "value": "Commit history.",
-        "href": "https://github.com/pbos/mst-type-hint/commits/gh-pages"
+        "href": "https://github.com/pbos/mst-content-hint/commits/gh-pages"
       }, ]
     }],
   };
@@ -45,14 +45,14 @@
   <section id="abstract">
     <p>
       This specification extends MediaStreamTrack as defined in
-      [[!GETUSERMEDIA]] to provide an media-content-type hint attribute. This
+      [[!GETUSERMEDIA]] to provide an media-content hint attribute. This
       optional hint permits <code>MediaStreamTrack</code> consumers such as
       <code>PeerConnection</code> or <code>MediaRecorder</code> to encode or
       process contained media with methods more appropriate to the type of
       content that is being consumed.
     </p>
     <p>
-      Adding a media-content-type hint provides a way for an application to help
+      Adding a media-content hint provides a way for an application to help
       track consumers make more informed decision of what encoder parameters and
       processing algorithms to use on the consumed content.
     <p>
@@ -117,20 +117,20 @@
     <h2>Extension to MediaStreamTrack</h2>
     <pre class="idl">
     partial interface <span class="idlInterfaceID">MediaStreamTrack</span> {
-      attribute DOMString contentTypeHint;
+      attribute DOMString contentHint;
     };
     </pre>
     <p>
       Each <code>MediaStreamTrack</code> has an associated <dfn>application-set
-      content-type hint</dfn>, initially <code>""</code>, signifying unset.
-      This corresponds to the <dfn>contentTypeHint</dfn> attribute which may be
-      used from the application to provide a hint of what type of content is
+      content hint</dfn>, initially <code>""</code>, signifying unset.
+      This corresponds to the <dfn>contentHint</dfn> attribute which may be used
+      from the application to provide a hint of what type of content is
       contained within the track, to guide how it should be treated.
     </p>
     <p>
-      On setting <code>contentTypeHint</code>, valid values are <code>""</code>
-      and the values defined by the enumeration defined below corresponding to
-      the track <code>kind</code>. <code>AudioContentTypeHint</code> and
+      On setting <code>contentHint</code>, valid values are <code>""</code> and
+      the values defined by the enumeration defined below corresponding to the
+      track <code>kind</code>. <code>AudioContentTypeHint</code> and
       <code>VideoContentTypeHint</code> shall be used for <code>"audio"</code>
       and <code>"video"</code> <code>kind</code>s respectively.
     </p>
@@ -138,18 +138,17 @@
       Setting of an invalid value shall be ignored as if the attribute were an
       enumeration containing only the valid values as defined above. On setting
       a valid value the implementation shall adapt its decision on how to handle
-      the content type described by the new value. Descriptions and example
+      the type of content described by the new value. Descriptions and example
       behaviors for defined values specific to the track <code>kind</code> are
       listed below, but how to handle the hint, is entirely up to the
       implementation. The implementation may also use additional information,
       such as the track source, to determine how it should be treated.
     </p>
     <p>
-      The <code>contentTypeHint</code> attribute, on getting, must return the
-      last successfully set string, if any, corresponding to the
-      currently-active hint, if any. If not previously set, or unset, the getter
-      must return <code>""</code>, corresponding to that no hint is currently
-      provided.
+      The <code>contentHint</code> attribute, on getting, must return the last
+      successfully set string, if any, corresponding to the currently-active
+      hint, if any. If not previously set, or unset, the getter must return
+      <code>""</code>, corresponding to that no hint is currently provided.
     </p>
     <table class="simple"><tbody><tr><th colspan="2">Enumeration description</th></tr>
       <tr><td><code>""</code></td><td><p>
@@ -172,7 +171,7 @@
       Audio content types are only applicable when
       <code>MediaStreamTrack</code>'s <code>kind</code> attribute is set to
       <code>"audio"</code> and contains an audio track.
-      <code>contentTypeHint</code> should only accept values defined within
+      <code>contentHint</code> should only accept values defined within
       <code>AudioContentTypeHint</code> when being applied to an audio track.
     </p>
     <table class="simple"><tbody><tr><th colspan="2">Enumeration description</th></tr>
@@ -198,7 +197,7 @@
       Video content types are only applicable when
       <code>MediaStreamTrack</code>'s <code>kind</code> attribute is set to
       <code>"video"</code> and contains a video track.
-      <code>contentTypeHint</code> should only accept values defined within
+      <code>contentHint</code> should only accept values defined within
       <code>VideoContentTypeHint</code> when being applied to a video track.
     </p>
     <table class="simple"><tbody><tr><th colspan="2">Enumeration description</th></tr>

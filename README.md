@@ -1,4 +1,4 @@
-# MediaStreamTrack Media Type Hints
+# MediaStreamTrack Content Hints
 
-This is the repository for MediaStreamTrack Media Type Hints. You're welcome to
-[[contribute]](CONTRIBUTING.md)!
+This is the repository for MediaStreamTrack Content Hints. You're welcome to
+[contribute](CONTRIBUTING.md)!
