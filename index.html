@@ -44,18 +44,17 @@
 <body>
   <section id="abstract">
     <p>
-      This specification extends MediaStreamTrack as defined in
-      [[!GETUSERMEDIA]] to provide an media-content hint attribute. This
-      optional hint permits <code>MediaStreamTrack</code> consumers such as
-      <code>PeerConnection</code> or <code>MediaRecorder</code> to encode or
-      process contained media with methods more appropriate to the type of
-      content that is being consumed.
+      This specification extends <a>MediaStreamTrack</a> as defined to provide
+      a media-content hint attribute. This optional hint permits
+      <a>MediaStreamTrack</a> consumers such as <dfn>PeerConnection</dfn>
+      (defined in [[!webrtc]]) or <dfn>MediaRecorder</dfn> (defined in
+      [[!mediastream-recording]]) to encode or process track media with methods
+      more appropriate to the type of content that is being consumed.
     </p>
     <p>
-      Adding a media-content hint provides a way for an application to help
+      Adding a media-content hint provides a way for a web application to help
       track consumers make more informed decision of what encoder parameters and
       processing algorithms to use on the consumed content.
-    <p>
     </p>
   </section>
   <section id="sotd">
@@ -80,13 +79,14 @@
       if the content is downscaled or otherwise blurry.
     </p>
     <p>
-      Without automatic detection of media content, a
-      <code>MediaStreamTrack</code> consumer can only make an educated guess.
-      This guess may be based on assuming that screencast content (such as
-      chrome.desktopCapture) contains text content and must use low quantization
-      levels, and drop frames extensively to meet bitrate requirements. Another
-      assumption is that regular USB video devices provide webcam video, and
-      higher quantization levels and downscaling are acceptible.
+      Without automatic detection of media content, a <a>MediaStreamTrack</a>
+      consumer can only make an educated guess. This guess may be based on
+      assuming that screencast content, such as
+      <code>chrome.desktopCapture</code>, contains text content and must use low
+      quantization levels, and drop frames extensively to meet bitrate
+      requirements. Another assumption is that regular USB video devices provide
+      webcam video, and higher quantization levels and downscaling are
+      acceptible.
     </p>
     <p>
       While usually appropriate this educated guess leads to sub-optimal
@@ -123,7 +123,7 @@
       more extensive tuning.
     </p>
   </section>
-  <section data-dfn-for="MediaStreamTrack">
+  <section>
     <h2>Extension to MediaStreamTrack</h2>
     <pre class="idl">
     partial interface <span class="idlInterfaceID">MediaStreamTrack</span> {
@@ -131,47 +131,52 @@
     };
     </pre>
     <p>
-      Each <code>MediaStreamTrack</code> has an associated <dfn>application-set
+      This specification extends <dfn>MediaStreamTrack</dfn> and makes use of
+      its <dfn>kind</dfn> attribute as defined in [[!GETUSERMEDIA]].
+    </p>
+    <p>
+      Each <a>MediaStreamTrack</a> has an associated <dfn>application-set
       content hint</dfn>, which is initially <code>""</code>, signifying unset.
-      This corresponds to the <dfn>contentHint</dfn> attribute which may be used
-      to provide a hint of what type of content is contained within the track,
-      to guide how it should be treated.
+      This <a>application-set content hint</a> corresponds to the
+      <dfn>contentHint</dfn> attribute of <a>MediaStreamTrack</a> which may be
+      used by the web application to provide a hint of what type of content is
+      contained within the track, to guide how it should be treated by
+      <a>MediaStreamTrack</a> consumers.
     </p>
     <p>
       Valid values for the application-set content hint are dependent on the
-      <code>kind</code> of <code>MediaStreamTrack</code> contained. On setting
-      <code>contentHint</code> to <i>value</i>,
+      <a>kind</a> of <a>MediaStreamTrack</a> contained. On setting
+      <a>contentHint</a> to <i>value</i>,
     </p>
     <ol>
       <li>
-        If this <code>MediaStreamTrack</code>'s <code>kind</code> attribute is
+        If this <a>MediaStreamTrack</a>'s <a>kind</a> attribute is
         <code>"audio"</code>, and <i>value</i> is not one of <code>""</code>,
         <code>"speech"</code>, or <code>"music"</code>, abort these steps.
       </li>
       <li>
-        If this <code>MediaStreamTrack</code>'s <code>kind</code> attribute is
+        If this <a>MediaStreamTrack</a>'s <a>kind</a> attribute is
         <code>"video"</code>, and <i>value</i> is not one of <code>""</code>,
         <code>"fluid"</code>, or <code>"detailed"</code>, abort these steps.
       </li>
       <li>
-        Set this <code>MediaStreamTrack</code>'s application-set content hint
-        to <i>value</i>.
+        Set this <a>MediaStreamTrack</a>'s application-set content hint to
+        <i>value</i>.
       </li>
       <li>
         The implementation should adapt its decision on how to handle the
-        content of this MediaStreamTrack according to the new value of its
-        application-set content hint. This adaptation should happen as quickly
-        as reasonable, e.g. within the next couple of captured video frames or
-        audio buffers.
+        content of this <a>MediaStreamTrack</a> according to the new value of
+        its application-set content hint. This adaptation should happen as
+        quickly as reasonable, e.g. within the next couple of captured video
+        frames or audio buffers.
       </li>
     </ol>
     <p>
-      On getting <code>contentHint</code>,
+      On getting <a>contentHint</a>,
     </p>
     <ol>
       <li>
-        Return this <code>MediaStreamTrack</code>'s application-set content
-        hint.
+        Return this <a>MediaStreamTrack</a>'s application-set content hint.
       </li>
     </ol>
     <p>
@@ -182,8 +187,8 @@
     </p>
     <h3>Audio Content Hints</h3>
     <p>
-      Audio content hints are only applicable when the
-      <code>MediaStreamTrack</code> contains an audio track.
+      Audio content hints are only applicable when the <a>MediaStreamTrack</a>
+      contains an audio track.
     </p>
     <table class="simple"><tbody><tr><th colspan="2">Audio content hints</th></tr>
       <tr><td><code>""</code></td><td><p>
@@ -203,8 +208,8 @@
     </tbody></table>
     <h3>Video Content Hints</h3>
     <p>
-      Video content hints are only applicable when the
-      <code>MediaStreamTrack</code> contains a video track.
+      Video content hints are only applicable when the <a>MediaStreamTrack</a>
+      contains a video track.
     </p>
     <table class="simple"><tbody><tr><th colspan="2">Video content hints</th></tr>
       <tr><td><code>""</code></td><td><p>
