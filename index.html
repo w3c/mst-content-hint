@@ -160,7 +160,9 @@
       <li>
         The implementation should adapt its decision on how to handle the
         content of this MediaStreamTrack according to the new value of its
-        application-set content hint.
+        application-set content hint. This adaptation should happen as quickly
+        as reasonable, e.g. within the next couple of captured video frames or
+        audio buffers.
       </li>
     </ol>
     <p>
