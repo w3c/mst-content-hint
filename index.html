@@ -91,17 +91,17 @@
     <p>
       While usually appropriate this educated guess leads to sub-optimal
       settings when incorrect. This manifests as high framedropping when
-      screencasting fluid content such as a movie or streaming a video game and
-      treating it as text. Treating highly-detailed content as regular webcam
-      video on the other hand leads to too-blurry content when being either
-      quantized or downscaled beyond readability to meet bitrate requirements.
-      This mismatch may happen when HDMI video-capture cards are believed to be
-      USB webcams but actually screencast webpage text.
+      screencasting high-motion content such as a movie or streaming a video
+      game and treating it as text. Treating highly-detailed content as regular
+      webcam video on the other hand leads to too-blurry content when being
+      either quantized or downscaled beyond readability to meet bitrate
+      requirements. This mismatch may also happen when HDMI video-capture cards
+      are seen as USB webcams but actually screencast webpage text.
     </p>
     <figure id="text-downscaling">
       <img src="lorem-ipsum.png" alt="Lost text intelligibility when downscaling."/>
       <figcaption>
-        While downscaling can be done to preserve fluid motion in low-bitrate
+        While downscaling can be done to preserve motion in low-bitrate
         scenarios, this example illustrates lost text intelligibility when
         incorrectly applied to detailed content. Example shows 100%, 50% and 25%
         cubic downscale corresponding to downscaling from HD to VGA and QVGA
@@ -112,8 +112,8 @@
       In some cases the web application can make a more-educated guess or take
       user input to inform consumers of what kind of content is being encoded. A
       web application that streams video-game content would be able to preserve
-      fluid motion from desktop capture at the cost of individual frame detail.
-      A music-studio application would be able to prevent noise suppression from
+      motion from desktop capture at the cost of individual frame detail. A
+      music-studio application would be able to prevent noise suppression from
       removing snares from a music track.
     </p>
     <p>
@@ -157,7 +157,7 @@
       <li>
         If this <a>MediaStreamTrack</a>'s <a>kind</a> attribute is
         <code>"video"</code>, and <i>value</i> is not one of <code>""</code>,
-        <code>"fluid"</code>, or <code>"detailed"</code>, abort these steps.
+        <code>"motion"</code>, or <code>"detail"</code>, abort these steps.
       </li>
       <li>
         Set this <a>MediaStreamTrack</a>'s application-set content hint to
@@ -217,20 +217,21 @@
         best-informed guess on how contained video content should be treated.
         This can for example be inferred from how the track was opened or by
         doing content analysis.
-      <tr><td><code id="idl-def-VideoContentHint.fluid">fluid</code></td><td><p>
-        The track should be treated as if it contains fluid video. This is
-        normally webcam video, movies or video games. Quantization artefacts and
-        downscaling is acceptible to preserve fluid motion while retaining
-        bitrates. During low bitrates when compromises have to be made, less
-        effort is spent on preserving edge quality and detail.
+      <tr><td><code id="idl-def-VideoContentHint.motion">motion</code></td><td><p>
+        The track should be treated as if it contains video where motion is
+        important. This is normally webcam video, movies or video games.
+        Quantization artefacts and downscaling are acceptible in order to
+        preserve motion as well as possible while still retaining target
+        bitrates. During low bitrates when compromises have to be made, more
+        effort is spent on preserving frame rate than edge quality and details.
       </p></td></tr>
-      <tr><td><code id="idl-def-VideoContentHint.detail">detailed</code></td><td><p>
+      <tr><td><code id="idl-def-VideoContentHint.detail">detail</code></td><td><p>
         The track should be treated as if video details are extra important.
         This is generally applicable to presentations or web pages with text
         content, painting or line art. This setting would normally optimize for
         detail in the resulting individual frames rather than smooth playback.
-        Quantization artefacts or downscaling that make small text or line art
-        unintelligible should be avoided.
+        Artefacts from quantization or downscaling that make small text or line
+        art unintelligible should be avoided.
       </p></td></tr>
     </tbody></table>
   </section>
