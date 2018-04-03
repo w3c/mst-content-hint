@@ -136,7 +136,7 @@
       more extensive tuning.
     </p>
   </section>
-  <section>
+  <section data-link-for="MediaStreamTrack">
     <h2>Extension to MediaStreamTrack</h2>
     <pre class="idl">
     partial interface <span class="idlInterfaceID">MediaStreamTrack</span> {
@@ -151,7 +151,7 @@
       Each <a>MediaStreamTrack</a> has an associated <dfn>application-set
       content hint</dfn>, which is initially <code>""</code>, signifying unset.
       This <a>application-set content hint</a> corresponds to the
-      <dfn>contentHint</dfn> attribute of <a>MediaStreamTrack</a> which may be
+      <dfn data-dfn-for="MediaStreamTrack">contentHint</dfn> attribute of <a>MediaStreamTrack</a> which may be
       used by the web application to provide a hint of what type of content is
       contained within the track, to guide how it should be treated by
       <a>MediaStreamTrack</a> consumers.
