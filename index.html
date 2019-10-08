@@ -60,8 +60,8 @@
       This specification extends <a>MediaStreamTrack</a> to provide a
       media-content hint attribute. This optional hint permits
       <a>MediaStreamTrack</a> consumers such as <dfn>PeerConnection</dfn>
-      (defined in [[!webrtc]]) or <dfn>MediaRecorder</dfn> (defined in
-      [[!mediastream-recording]]) to encode or process track media with methods
+      (defined in [[webrtc]]) or <dfn>MediaRecorder</dfn> (defined in
+      [[mediastream-recording]]) to encode or process track media with methods
       more appropriate to the type of content that is being consumed.
     </p>
     <p>
@@ -132,6 +132,10 @@
       require broad knowledge of video encoders, audio-processing steps or
       more extensive tuning.
     </p>
+    <p>
+      A separate section of this specification describes expected behavior
+      for specific components that process a MediaStreamTrack.
+    </p>
   </section>
   <section id="conformance"></section>
   <section data-link-for="MediaStreamTrack">
@@ -143,7 +147,7 @@
     </pre>
     <p>
       This specification extends <dfn>MediaStreamTrack</dfn> and makes use of
-      its <dfn>kind</dfn> attribute as defined in [[!GETUSERMEDIA]].
+      its <dfn>kind</dfn> attribute as defined in [[GETUSERMEDIA]].
     </p>
     <p>
       Each <a>MediaStreamTrack</a> has an associated <dfn>application-set
@@ -258,6 +262,60 @@
             or line art unintelligible should be avoided.
       </p></td></tr>
     </tbody></table>
+  </section>
+  <section>
+    <h2>Behaviors of other components based on content-hint</h2>
+    <section>
+      <h3>Behavior of a MediaStreamTrack</h3>
+      <p>A MediaStreamTrack for which a contentHint attribute has been
+      set MUST set the following default settings for constrainable
+        values:</p>
+        <ul>
+          <li>For an audio track with the value "music",
+            echoCancellation, autoGainControl and noiseSuppression
+            default to "false".</li>
+          <li>For an audio track with the value "speech",
+            echoCancellation and autoGainControl default to
+            "true".</li>
+        </ul>
+        <p>There is no change to the MediaTrakcCapabilities based on
+          this value; constraints may still cause these settings to
+          have any legal value.
+        </p>
+    </section>
+    <section>
+      <h3>Behavior of an RTCPeerConnection</h3>
+      <p>An RTCRtpSender transmitting a MediaStreamTrack for which a
+        contentHint attribute has been
+        set MUST perform the following actions:
+      </p>
+      <ul>
+        <li>For a video track with the attribute value "motion", if
+        RTCDegradationPreference is set to "balanced" (the default),
+        act as if it had been set to "maintain-framerate". 
+        </li>
+        <li>For a video track with the attribute value "detail", if
+        RTCDegradationPreference is set to "balanced", act as if it
+          had been set to "maintain-resolution".
+        </li>
+        <li>For a video track with the attribute value "text", if
+        RTCDegradationPreference is set to "balanced", act as if it
+          had been set to "maintain-resolution". In addition, if the
+        encoding codec is AV1, activate encoding tools for "text" mode.
+        </li>
+      </ul>
+      <p class="note">According to WebIDL semantics, it is not
+      possible to have behavior that differs between
+      RTCDegradationPreference set to "balanced" and
+      RTCDegradationPreference not set, given that the value has a default.</p>
+    </section>
+    <section>
+      <h3>Behavior of a MediaStreamRecorder</h3>
+      <p>For a video track with the attribute value "text", if the
+        encoding codec is AV1, activate encoding tools for "text"
+        mode.
+      </p>
+    </section>
   </section>
 </body>
 
