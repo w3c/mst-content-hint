@@ -48,8 +48,9 @@
       // name (without the @w3c.org) of the public mailing to which comments are due
       wgPublicList: "public-media-capture",
       wgPatentURI:  "https://www.w3.org/2004/01/pp-impl/47318/status",
-      specStatus:           "ED"
-
+      specStatus:           "ED",
+      // until we separate out the test suite for this spec:
+      testSuiteURI: "https://github.com/web-platform-tests/wpt/tree/master/webrtc/",
   };
   </script>
 </head>
@@ -138,6 +139,12 @@
     </p>
   </section>
   <section id="conformance"></section>
+  <section id="terminology">
+    <h2>Terminology</h2>
+    <p> The terms <dfn><a data-cite="!WEBRTC/RTCRtpSender">RTCRtpSender</a></dfn>
+      and <dfn><a data-cite="!WEBRTC/RTCRtpSendParameters">RTCRtpSendParameters</a></dfn>
+      are defined in [[!WEBRTC]].
+  </section>
   <section data-link-for="MediaStreamTrack">
     <h2>Extension to MediaStreamTrack</h2>
     <pre class="idl">
@@ -267,47 +274,121 @@
     <h2>Behaviors of other components based on content-hint</h2>
     <section>
       <h3>Behavior of a MediaStreamTrack</h3>
-      <p>A MediaStreamTrack for which a contentHint attribute has been
-      set MUST set the following default settings for constrainable
-        values:</p>
+      <p>When setting a contentHint value for a MediaStreamTrack, the
+        UA MUST <a>apply a default</a> as follows:
         <ul>
-          <li>For an audio track with the value "music",
+          <li>For an audio track with the value "music", and for constraints
             echoCancellation, autoGainControl and noiseSuppression
-            default to "false".</li>
-          <li>For an audio track with the value "speech",
-            echoCancellation and autoGainControl default to
+            apply a default of "false".</li>
+          <li>For an audio track with the value "speech", and for constraints
+            echoCancellation and autoGainControl, apply a default of
             "true".</li>
         </ul>
-        <p>There is no change to the MediaTrakcCapabilities based on
-          this value; constraints may still cause these settings to
-          have any legal value.
-        </p>
+      </p>
+      <p>To <dfn>apply a default</dfn> to the constraint <var>c</var>
+        with value <var>t</var>, perform the following steps:
+        <ul>
+          <li>If the value <var>t</var> satisfies the applied constraints,
+            set the setting corresponding to c <var>t</var>.</li>
+          <li>Otherwise, choose a value for the setting corresponding to c
+            that satisfies the applied constraints.</li>
+          <li>Remember the value <var>t</var>.
+          <li>In parallel, update the trac with the new settings.</li>
+        </ul>
+      <p>Whenever the "apply constraints" algorithm is subsequently
+        run, the UA MUST choose the remembered value <var>t</var> if it is
+        now a permitted value.
+      </p>
+      <p>When setting a contentHint value of "", all remembered values of
+        <var>t</var> are removed.
+      </p>
     </section>
     <section>
+      <h3>Degradation preference when encoding</h3>
+      <p>
+        When encoding video, and some constraint (bandwidth, CPU) prevents
+        encoding at the configured framerate and resolution, the encoder
+        must make a choice on how to modify the encoding parameters.
+      </p>
+      <p>
+        This section defines terms to describe the choice, and an enum
+        that can be used to indicate that choice in an API.
+      </p>
+      <div>
+        <pre class="idl"
+>enum RTCDegradationPreference {
+  "maintain-framerate",
+  "maintain-resolution",
+  "balanced"
+};</pre>
+        <table data-link-for="RTCDegradationPreference" data-dfn-for=
+        "RTCDegradationPreference" class="simple">
+          <tbody>
+            <tr>
+              <th colspan="2"><code><a>RTCDegradationPreference</a></code> Enumeration description</th>
+            </tr>
+            <tr>
+              <td data-tests="RTCRtpParameters-degradationPreference.html"><dfn data-idl><code>maintain-framerate</code></dfn></td>
+              <td>
+                <p>Degrade resolution in order to maintain framerate.</p>
+              </td>
+            </tr>
+            <tr>
+              <td><dfn data-idl><code>maintain-resolution</code></dfn></td>
+              <td>
+                <p>Degrade framerate in order to maintain resolution.</p>
+              </td>
+            </tr>
+            <tr>
+              <td data-tests="RTCRtpParameters-degradationPreference.html"><dfn data-idl><code>balanced</code></dfn></td>
+              <td>
+                <p>Degrade a balance of framerate and resolution.</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      An attribute is defined for RTCRtpSendParameters that allows this
+      to be explicitly indicated for an RTCRtpSender:
+
+      <pre class='idl'>partial dictionary RTCRtpSendParameters {
+        RTCDegradationPreference degradationPreference;
+       };</pre>
+      <section>
+        <h2>Dictionary <code><a>RTCRtpSendParameters</a></code> New Members</h2>
+        <dl>
+          <dt data-tests="RTCRtpParameters-degradationPreference.html"><dfn data-idl><code>degradationPreference</code></dfn> of type
+            <span class="idlMemberType"><a>RTCDegradationPreference</a></span>,
+            defaulting to <code>"balanced"</code></dt>
+          <dd>
+            <p>When bandwidth is constrained and the
+              <code><a>RTCRtpSender</a></code> needs to choose between degrading
+              resolution or degrading framerate,
+              <code>degradationPreference</code> indicates which is
+              preferred.</p>
+          </dd>
+        </dl>
+      </section>
+    <section>
       <h3>Behavior of an RTCPeerConnection</h3>
-      <p>An RTCRtpSender transmitting a MediaStreamTrack for which a
+      <p>An <a>RTCRtpSender</a> transmitting a MediaStreamTrack for which a
         contentHint attribute has been
-        set MUST perform the following actions:
+        set MUST use the following degradation preferences, unless an
+        explicit degradationPreference attribute has been set in the sender's
+        parameters:
       </p>
       <ul>
-        <li>For a video track with the attribute value "motion", if
-        RTCDegradationPreference is set to "balanced" (the default),
-        act as if it had been set to "maintain-framerate". 
+        <li>For a video track with the attribute value "motion",
+          use "maintain-framerate".
         </li>
-        <li>For a video track with the attribute value "detail", if
-        RTCDegradationPreference is set to "balanced", act as if it
-          had been set to "maintain-resolution".
+        <li>For a video track with the attribute value "detail",
+          use "maintain-resolution".
         </li>
-        <li>For a video track with the attribute value "text", if
-        RTCDegradationPreference is set to "balanced", act as if it
-          had been set to "maintain-resolution". In addition, if the
+        <li>For a video track with the attribute value "text",
+          use "maintain-resolution". In addition, if the
         encoding codec is AV1, activate encoding tools for "text" mode.
         </li>
       </ul>
-      <p class="note">According to WebIDL semantics, it is not
-      possible to have behavior that differs between
-      RTCDegradationPreference set to "balanced" and
-      RTCDegradationPreference not set, given that the value has a default.</p>
     </section>
     <section>
       <h3>Behavior of a MediaStreamRecorder</h3>
