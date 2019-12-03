@@ -138,14 +138,16 @@
       for specific components that process a MediaStreamTrack.
     </p>
   </section>
-  <section id="conformance"></section>
+  <section id="conformance">
+  </section>
   <section id="terminology">
     <h2>Terminology</h2>
     <p> The terms <dfn><a data-cite="!WEBRTC/RTCRtpSender">RTCRtpSender</a></dfn>
       and <dfn><a data-cite="!WEBRTC/RTCRtpSendParameters">RTCRtpSendParameters</a></dfn>
       are defined in [[!WEBRTC]].
+    </p>
   </section>
-  <section data-link-for="MediaStreamTrack">
+  <section data-link-for="MediaStreamTrack" id="mediastreamtrack-extension">
     <h2>Extension to MediaStreamTrack</h2>
     <pre class="idl">
     partial interface <span class="idlInterfaceID">MediaStreamTrack</span> {
@@ -276,15 +278,15 @@
       <h3>Behavior of a MediaStreamTrack</h3>
       <p>When setting a contentHint value for a MediaStreamTrack, the
         UA MUST <a>apply a default</a> as follows:
-        <ul>
-          <li>For an audio track with the value "music", and for constraints
-            echoCancellation, autoGainControl and noiseSuppression
-            apply a default of "false".</li>
-          <li>For an audio track with the value "speech", and for constraints
-            echoCancellation and autoGainControl, apply a default of
-            "true".</li>
-        </ul>
       </p>
+      <ul>
+        <li>For an audio track with the value "music", and for constraints
+          echoCancellation, autoGainControl and noiseSuppression
+          apply a default of "false".</li>
+        <li>For an audio track with the value "speech", and for constraints
+          echoCancellation and autoGainControl, apply a default of
+          "true".</li>
+      </ul>
       <p>To <dfn>apply a default</dfn> to the constraint <var>c</var>
         with value <var>t</var>, perform the following steps:
         <ul>
@@ -292,8 +294,8 @@
             set the setting corresponding to c <var>t</var>.</li>
           <li>Otherwise, choose a value for the setting corresponding to c
             that satisfies the applied constraints.</li>
-          <li>Remember the value <var>t</var>.
-          <li>In parallel, update the trac with the new settings.</li>
+          <li>Remember the value <var>t</var>.</li>
+          <li>In parallel, update the track with the new settings.</li>
         </ul>
       <p>Whenever the "apply constraints" algorithm is subsequently
         run, the UA MUST choose the remembered value <var>t</var> if it is
@@ -358,8 +360,7 @@
         <h2>Dictionary <code><a>RTCRtpSendParameters</a></code> New Members</h2>
         <dl>
           <dt data-tests="RTCRtpParameters-degradationPreference.html"><dfn data-idl><code>degradationPreference</code></dfn> of type
-            <span class="idlMemberType"><a>RTCDegradationPreference</a></span>,
-            defaulting to <code>"balanced"</code></dt>
+            <span class="idlMemberType"><a>RTCDegradationPreference</a></span>.
           <dd>
             <p>When bandwidth is constrained and the
               <code><a>RTCRtpSender</a></code> needs to choose between degrading
@@ -369,6 +370,7 @@
           </dd>
         </dl>
       </section>
+    </section>
     <section>
       <h3>Behavior of an RTCPeerConnection</h3>
       <p>An <a>RTCRtpSender</a> transmitting a MediaStreamTrack for which a
