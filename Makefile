@@ -8,3 +8,9 @@ webrtc-respec-ci/Makefile:
 
 update::
 	git -C webrtc-respec-ci pull
+
+# Somehow, "make check" can't live without an "images" subdirectory
+images/lorem-ipsum.png: lorem-ipsum.png
+	@mkdir -p $(dir $@)
+	cp -f $< $@
+
