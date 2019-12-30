@@ -8,3 +8,4 @@ webrtc-respec-ci/Makefile:
 
 update::
 	git -C webrtc-respec-ci pull
+
