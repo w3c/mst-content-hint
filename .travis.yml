@@ -1,9 +1,11 @@
 language: python
+python: "2.7"
 
 dist: trusty
 
 branches:
   only:
+    - gh-pages
     - /.*/
 
 sudo: false
