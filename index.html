@@ -175,7 +175,7 @@
       <li>
         If this <a>MediaStreamTrack</a>'s <a>kind</a> attribute is
         <code>"audio"</code>, and <i>value</i> is not one of <code>""</code>,
-        <code>"speech"</code>, or <code>"music"</code>, abort these steps.
+        <code>"speech"</code>, <code>"speechRecognition"</code>, or <code>"music"</code>, abort these steps.
       </li>
       <li>
         If this <a>MediaStreamTrack</a>'s <a>kind</a> attribute is
@@ -223,6 +223,13 @@
         The track should be treated as if it contains speech data. Consuming
         this signal it may be appropriate to apply noise suppression or boost
         intelligibility of the incoming signal.
+      </p></td></tr>
+      <tr><td><code id="idl-def-AudioContentHint.speechRecognition">speechRecognition</code></td><td><p>
+        The track should be treated as if it contains data for the purpose of
+        speech recognition by a machine. Consuming this signal it may be
+        appropriate to boost intelligibility of the incoming signal for
+        transcription and turn off audio-processing components that are used for
+        human consumption.
       </p></td></tr>
       <tr><td><code id="idl-def-AudioContentHint.music">music</code></td><td><p>
         The track should be treated as if it contains music data. Generally this
@@ -285,6 +292,9 @@
         <li>For an audio track with the value "speech", and for constraints
           echoCancellation and autoGainControl, apply a default of
           "true".</li>
+        <li>For an audio track with the value "speechRecognition", and for
+          constraints echoCancellation, autoGainControl, and noiseSuppression,
+          apply a default of "false".</li>
       </ul>
       <p>To <dfn>apply a default</dfn> to the constraint <var>c</var>
         with value <var>t</var>, perform the following steps:
