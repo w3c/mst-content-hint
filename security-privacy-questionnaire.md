@@ -45,7 +45,7 @@ It makes no such distinction.
 It is not influenced by incognito or private mode.
 
 # Does this specification have a "Security Considerations" and "Privacy Considerations" section?
-No.
+Yes.
 
 # Does this specification allow downgrading default security characteristics?
 No.
