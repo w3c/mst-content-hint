@@ -209,74 +209,78 @@
       does not default to the implementation's best guess of contained type of
       content.</i>
     </p>
-    <h3>Audio Content Hints</h3>
-    <p>
-      Audio content hints are only applicable when the <a>MediaStreamTrack</a>
-      contains an audio track.
-    </p>
-    <table class="simple"><tbody><tr><th colspan="2">Audio content hints</th></tr>
-      <tr><td><code>""</code></td><td><p>
-        No hint has been provided, the implementation should make its
-        best-informed guess on how to handle contained audio data. This may be
-        inferred from how the track was opened or by doing content analysis.
-      <tr><td><code id="idl-def-AudioContentHint.speech">speech</code></td><td><p>
-        The track should be treated as if it contains speech data. Consuming
-        this signal it may be appropriate to apply noise suppression or boost
-        intelligibility of the incoming signal.
-      </p></td></tr>
-      <tr><td><code id="idl-def-AudioContentHint.speechRecognition">speechRecognition</code></td><td><p>
-        The track should be treated as if it contains data for the purpose of
-        speech recognition by a machine. Consuming this signal it may be
-        appropriate to boost intelligibility of the incoming signal for
-        transcription and turn off audio-processing components that are used for
-        human consumption.
-      </p></td></tr>
-      <tr><td><code id="idl-def-AudioContentHint.music">music</code></td><td><p>
-        The track should be treated as if it contains music data. Generally this
-        might imply tuning or turning off audio-processing components that are
-        used to process speech data to prevent the audio from being distorted.
-      </p></td></tr>
-    </tbody></table>
-    <h3>Video Content Hints</h3>
-    <p>
-      Video content hints are only applicable when the <a>MediaStreamTrack</a>
-      contains a video track.
-    </p>
-    <table class="simple"><tbody><tr><th colspan="2">Video content hints</th></tr>
-      <tr><td><code>""</code></td><td><p>
-        No hint has been provided, the implementation should make its
-        best-informed guess on how contained video content should be treated.
-        This can for example be inferred from how the track was opened or by
-        doing content analysis.
-      <tr><td><code id="idl-def-VideoContentHint.motion">motion</code></td><td><p>
-        The track should be treated as if it contains video where motion is
-        important. This is normally webcam video, movies or video games.
-        Quantization artefacts and downscaling are acceptible in order to
-        preserve motion as well as possible while still retaining target
-        bitrates. During low bitrates when compromises have to be made, more
-        effort is spent on preserving frame rate than edge quality and details.
-      </p></td></tr>
-      <tr><td><code id="idl-def-VideoContentHint.detail">detail</code></td><td><p>
-        The track should be treated as if video details are extra important.
-        This is generally applicable to presentations or web pages with text
-        content, painting or line art. This setting would normally optimize for
-        detail in the resulting individual frames rather than smooth playback.
-        Artefacts from quantization or downscaling that make small text or line
-        art unintelligible should be avoided.
-      </p></td></tr>
-      <tr><td><code id="idl-def-VideoContentHint.text">text</code></td><td><p>
-            The track should be treated as if video details are extra important,
-            and that significant sharp edges and areas of consistent color can
-            occur frequently.
-            This is generally applicable to presentations or web pages with text
-            content. This setting would normally optimize for
-            detail in the resulting individual frames rather than smooth
-            playback, and may take advantage of encoder tools that optimize for
-            text rendering.
-            Artefacts from quantization or downscaling that make small text
-            or line art unintelligible should be avoided.
-      </p></td></tr>
-    </tbody></table>
+    <section>
+      <h3>Audio Content Hints</h3>
+      <p>
+        Audio content hints are only applicable when the <a>MediaStreamTrack</a>
+        contains an audio track.
+      </p>
+      <table class="simple"><tbody><tr><th colspan="2">Audio content hints</th></tr>
+        <tr><td><code>""</code></td><td><p>
+          No hint has been provided, the implementation should make its
+          best-informed guess on how to handle contained audio data. This may be
+          inferred from how the track was opened or by doing content analysis.
+        <tr><td><code id="idl-def-AudioContentHint.speech">speech</code></td><td><p>
+          The track should be treated as if it contains speech data. Consuming
+          this signal it may be appropriate to apply noise suppression or boost
+          intelligibility of the incoming signal.
+        </p></td></tr>
+        <tr><td><code id="idl-def-AudioContentHint.speechRecognition">speechRecognition</code></td><td><p>
+          The track should be treated as if it contains data for the purpose of
+          speech recognition by a machine. Consuming this signal it may be
+          appropriate to boost intelligibility of the incoming signal for
+          transcription and turn off audio-processing components that are used for
+          human consumption.
+        </p></td></tr>
+        <tr><td><code id="idl-def-AudioContentHint.music">music</code></td><td><p>
+          The track should be treated as if it contains music data. Generally this
+          might imply tuning or turning off audio-processing components that are
+          used to process speech data to prevent the audio from being distorted.
+        </p></td></tr>
+      </tbody></table>
+    </section>
+    <section>
+      <h3>Video Content Hints</h3>
+      <p>
+        Video content hints are only applicable when the <a>MediaStreamTrack</a>
+        contains a video track.
+      </p>
+      <table class="simple"><tbody><tr><th colspan="2">Video content hints</th></tr>
+        <tr><td><code>""</code></td><td><p>
+          No hint has been provided, the implementation should make its
+          best-informed guess on how contained video content should be treated.
+          This can for example be inferred from how the track was opened or by
+          doing content analysis.
+        <tr><td><code id="idl-def-VideoContentHint.motion">motion</code></td><td><p>
+          The track should be treated as if it contains video where motion is
+          important. This is normally webcam video, movies or video games.
+          Quantization artefacts and downscaling are acceptible in order to
+          preserve motion as well as possible while still retaining target
+          bitrates. During low bitrates when compromises have to be made, more
+          effort is spent on preserving frame rate than edge quality and details.
+        </p></td></tr>
+        <tr><td><code id="idl-def-VideoContentHint.detail">detail</code></td><td><p>
+          The track should be treated as if video details are extra important.
+          This is generally applicable to presentations or web pages with text
+          content, painting or line art. This setting would normally optimize for
+          detail in the resulting individual frames rather than smooth playback.
+          Artefacts from quantization or downscaling that make small text or line
+          art unintelligible should be avoided.
+        </p></td></tr>
+        <tr><td><code id="idl-def-VideoContentHint.text">text</code></td><td><p>
+          The track should be treated as if video details are extra important,
+          and that significant sharp edges and areas of consistent color can
+          occur frequently.
+          This is generally applicable to presentations or web pages with text
+          content. This setting would normally optimize for
+          detail in the resulting individual frames rather than smooth
+          playback, and may take advantage of encoder tools that optimize for
+          text rendering.
+          Artefacts from quantization or downscaling that make small text
+          or line art unintelligible should be avoided.
+        </p></td></tr>
+      </tbody></table>
+    </section>
   </section>
   <section>
     <h2>Behaviors of other components based on content-hint</h2>
