@@ -175,7 +175,7 @@
       <li>
         If this <a>MediaStreamTrack</a>'s <a>kind</a> attribute is
         <code>"audio"</code>, and <i>value</i> is not one of <code>""</code>,
-        <code>"speech"</code>, <code>"speechRecognition"</code>, or <code>"music"</code>, abort these steps.
+        <code>"speech"</code>, <code>"speech-recognition"</code>, or <code>"music"</code>, abort these steps.
       </li>
       <li>
         If this <a>MediaStreamTrack</a>'s <a>kind</a> attribute is
@@ -225,7 +225,7 @@
           this signal it may be appropriate to apply noise suppression or boost
           intelligibility of the incoming signal.
         </p></td></tr>
-        <tr><td><code id="idl-def-AudioContentHint.speechRecognition">speechRecognition</code></td><td><p>
+        <tr><td><code id="idl-def-AudioContentHint.speech-recognition">speech-recognition</code></td><td><p>
           The track should be treated as if it contains data for the purpose of
           speech recognition by a machine. Consuming this signal it may be
           appropriate to boost intelligibility of the incoming signal for
@@ -296,7 +296,7 @@
         <li>For an audio track with the value "speech", and for constraints
           echoCancellation and autoGainControl, apply a default of
           "true".</li>
-        <li>For an audio track with the value "speechRecognition", and for
+        <li>For an audio track with the value "speech-recognition", and for
           constraints echoCancellation, autoGainControl, and noiseSuppression,
           apply a default of "false".</li>
       </ul>
