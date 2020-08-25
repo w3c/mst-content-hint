@@ -9,10 +9,7 @@
   "use strict";
   // See https://github.com/w3c/respec/wiki/ for how to configure ReSpec
   var respecConfig = {
-    "doRDFa": false,
-    "githubAPI": "https://api.github.com/repos/w3c/mst-content-hint",
-    "issueBase": "https://www.github.com/w3c/mst-content-hint/issues/",
-    "noLegacyStyle": true,
+    "github": "https://github.com/w3c/mst-content-hint",
     "editors": [
       {   name: "Harald Alvestrand",  company: "Google", w3cid: "24610" }
     ],
@@ -26,27 +23,10 @@
     "shortName": "mst-content-hint",
     "edDraftURI": "https://w3c.github.io/mst-content-hint/",
     "subjectPrefix": "[mst-content-hint]",
-    "otherLinks": [{
-      "key": "Repository",
-      "data": [{
-        "value": "We are on GitHub.",
-        "href": "https://github.com/w3c/mst-content-hint"
-      }, {
-        "value": "File a bug.",
-        "href": "https://github.com/w3c/mst-content-hint/issues"
-      }, {
-        "value": "Commit history.",
-        "href": "https://github.com/w3c/mst-content-hint/commits/gh-pages"
-      }, ]
-    }],
-      wg:           "Web Real-Time Communications Working Group",
-
-      // URI of the public WG page
-      wgURI:        "https://www.w3.org/2011/04/webrtc/",
-
+    xref: ["mediacapture-streams"],
+      group:           "webrtc",
       // name (without the @w3c.org) of the public mailing to which comments are due
       wgPublicList: "public-media-capture",
-      wgPatentURI:  "https://www.w3.org/2004/01/pp-impl/47318/status",
       specStatus:           "ED",
       // until we separate out the test suite for this spec:
       testSuiteURI: "https://github.com/web-platform-tests/wpt/tree/master/webrtc/",
@@ -57,9 +37,9 @@
 <body>
   <section id="abstract">
     <p>
-      This specification extends <a>MediaStreamTrack</a> to provide a
+      This specification extends {{MediaStreamTrack}} to provide a
       media-content hint attribute. This optional hint permits
-      <a>MediaStreamTrack</a> consumers such as <dfn>PeerConnection</dfn>
+      {{MediaStreamTrack}} consumers such <dfn>RTCPeerConnection</dfn>
       (defined in [[webrtc]]) or <dfn>MediaRecorder</dfn> (defined in
       [[mediastream-recording]]) to encode or process track media with methods
       more appropriate to the type of content that is being consumed.
@@ -89,7 +69,7 @@
       if the content is downscaled or otherwise blurry.
     </p>
     <p>
-      Without automatic detection of media content, a <a>MediaStreamTrack</a>
+      Without automatic detection of media content, a {{MediaStreamTrack}}
       consumer can only make an educated guess. This guess may be based on
       assuming that screencast content, such as
       <code>chrome.desktopCapture</code>, contains text content and must use low
@@ -154,53 +134,53 @@
     };
     </pre>
     <p>
-      This specification extends <dfn>MediaStreamTrack</dfn> and makes use of
-      its <dfn>kind</dfn> attribute as defined in [[GETUSERMEDIA]].
+      This specification extends {{MediaStreamTrack}} and makes use of
+      its {{MediaStreamTrack/kind}} attribute as defined in [[GETUSERMEDIA]].
     </p>
     <p>
-      Each <a>MediaStreamTrack</a> has an associated <dfn>application-set
+      Each {{MediaStreamTrack}} has an associated <dfn>application-set
       content hint</dfn>, which is initially <code>""</code>, signifying unset.
       This <a>application-set content hint</a> corresponds to the
-      <dfn data-dfn-for="MediaStreamTrack">contentHint</dfn> attribute of <a>MediaStreamTrack</a> which may be
+      <dfn data-dfn-for="MediaStreamTrack">contentHint</dfn> attribute of {{MediaStreamTrack}} which may be
       used by the web application to provide a hint of what type of content is
       contained within the track, to guide how it should be treated by
-      <a>MediaStreamTrack</a> consumers.
+      {{MediaStreamTrack}} consumers.
     </p>
     <p>
       Valid values for the application-set content hint are dependent on the
-      <a>kind</a> of <a>MediaStreamTrack</a> contained. On setting
+      {{MediaStreamTrack/kind}} of {{MediaStreamTrack}} contained. On setting
       <a>contentHint</a> to <i>value</i>,
     </p>
     <ol>
       <li>
-        If this <a>MediaStreamTrack</a>'s <a>kind</a> attribute is
+        If this {{MediaStreamTrack}}'s {{MediaStreamTrack/kind}} attribute is
         <code>"audio"</code>, and <i>value</i> is not one of <code>""</code>,
-        <code>"speech"</code>, <code>"speechRecognition"</code>, or <code>"music"</code>, abort these steps.
+        <a>"speech"</a>, <a>"speechRecognition"</a>, or <a>"music"</a>, abort these steps.
       </li>
       <li>
-        If this <a>MediaStreamTrack</a>'s <a>kind</a> attribute is
+        If this {{MediaStreamTrack}}'s {{MediaStreamTrack/kind}} attribute is
         <code>"video"</code>, and <i>value</i> is not one of <code>""</code>,
-        <code>"motion"</code>, <code>"detail"</code> or <code>"text"</code>,
+        <a>"motion"</a>, <a>"detail"</a> or <a>"text"</a>,
         abort these steps.
       </li>
       <li>
-        Set this <a>MediaStreamTrack</a>'s application-set content hint to
+        Set this {{MediaStreamTrack}}'s application-set content hint to
         <i>value</i>.
       </li>
       <li>
         The implementation should adapt its decision on how to handle the
-        content of this <a>MediaStreamTrack</a> according to the new value of
+        content of this {{MediaStreamTrack}} according to the new value of
         its application-set content hint. This adaptation should happen as
         quickly as reasonable, e.g. within the next couple of captured video
         frames or audio buffers.
       </li>
     </ol>
     <p>
-      On getting <a>contentHint</a>,
+      On getting {{MediaStreamTrack/contentHint}},
     </p>
     <ol>
       <li>
-        Return this <a>MediaStreamTrack</a>'s application-set content hint.
+        Return this {{MediaStreamTrack}}'s [=application-set content hint=].
       </li>
     </ol>
     <p>
@@ -212,7 +192,7 @@
     <section>
       <h3>Audio Content Hints</h3>
       <p>
-        Audio content hints are only applicable when the <a>MediaStreamTrack</a>
+        Audio content hints are only applicable when the {{MediaStreamTrack}}
         contains an audio track.
       </p>
       <table class="simple"><tbody><tr><th colspan="2">Audio content hints</th></tr>
@@ -220,19 +200,19 @@
           No hint has been provided, the implementation should make its
           best-informed guess on how to handle contained audio data. This may be
           inferred from how the track was opened or by doing content analysis.
-        <tr><td><code id="idl-def-AudioContentHint.speech">speech</code></td><td><p>
+        <tr><td><dfn id="idl-def-AudioContentHint.speech"><code>"speech"</code></dfn></td><td><p>
           The track should be treated as if it contains speech data. Consuming
           this signal it may be appropriate to apply noise suppression or boost
           intelligibility of the incoming signal.
         </p></td></tr>
-        <tr><td><code id="idl-def-AudioContentHint.speechRecognition">speechRecognition</code></td><td><p>
+        <tr><td><dfn id="idl-def-AudioContentHint.speechRecognition"><code>"speechRecognition"</code></dfn></td><td><p>
           The track should be treated as if it contains data for the purpose of
           speech recognition by a machine. Consuming this signal it may be
           appropriate to boost intelligibility of the incoming signal for
           transcription and turn off audio-processing components that are used for
           human consumption.
         </p></td></tr>
-        <tr><td><code id="idl-def-AudioContentHint.music">music</code></td><td><p>
+        <tr><td><dfn id="idl-def-AudioContentHint.music"><code>"music"</code></dfn></td><td><p>
           The track should be treated as if it contains music data. Generally this
           might imply tuning or turning off audio-processing components that are
           used to process speech data to prevent the audio from being distorted.
@@ -242,7 +222,7 @@
     <section>
       <h3>Video Content Hints</h3>
       <p>
-        Video content hints are only applicable when the <a>MediaStreamTrack</a>
+        Video content hints are only applicable when the {{MediaStreamTrack}}
         contains a video track.
       </p>
       <table class="simple"><tbody><tr><th colspan="2">Video content hints</th></tr>
@@ -251,7 +231,7 @@
           best-informed guess on how contained video content should be treated.
           This can for example be inferred from how the track was opened or by
           doing content analysis.
-        <tr><td><code id="idl-def-VideoContentHint.motion">motion</code></td><td><p>
+        <tr><td><dfn id="idl-def-VideoContentHint.motion"><code>"motion"</code></dfn></td><td><p>
           The track should be treated as if it contains video where motion is
           important. This is normally webcam video, movies or video games.
           Quantization artefacts and downscaling are acceptible in order to
@@ -259,7 +239,7 @@
           bitrates. During low bitrates when compromises have to be made, more
           effort is spent on preserving frame rate than edge quality and details.
         </p></td></tr>
-        <tr><td><code id="idl-def-VideoContentHint.detail">detail</code></td><td><p>
+        <tr><td><dfn id="idl-def-VideoContentHint.detail"><code>"detail"</code></dfn></td><td><p>
           The track should be treated as if video details are extra important.
           This is generally applicable to presentations or web pages with text
           content, painting or line art. This setting would normally optimize for
@@ -267,7 +247,7 @@
           Artefacts from quantization or downscaling that make small text or line
           art unintelligible should be avoided.
         </p></td></tr>
-        <tr><td><code id="idl-def-VideoContentHint.text">text</code></td><td><p>
+        <tr><td><dfn id="idl-def-VideoContentHint.text"><code>"text"</code></dfn></td><td><p>
           The track should be treated as if video details are extra important,
           and that significant sharp edges and areas of consistent color can
           occur frequently.
@@ -286,17 +266,17 @@
     <h2>Behaviors of other components based on content-hint</h2>
     <section>
       <h3>Behavior of a MediaStreamTrack</h3>
-      <p>When setting a contentHint value for a MediaStreamTrack, the
+      <p>When setting a {{MediaStreamTrack/contentHint}} value for a {{MediaStreamTrack}}, the
         UA MUST <a>apply a default</a> as follows:
       </p>
       <ul>
-        <li>For an audio track with the value "music", and for constraints
+        <li>For an audio track with the value <a>"music"</a>, and for constraints
           echoCancellation, autoGainControl and noiseSuppression
           apply a default of "false".</li>
-        <li>For an audio track with the value "speech", and for constraints
+        <li>For an audio track with the value <a>"speech"</a>, and for constraints
           echoCancellation and autoGainControl, apply a default of
           "true".</li>
-        <li>For an audio track with the value "speechRecognition", and for
+        <li>For an audio track with the value <a>"speechRecognition"</a>, and for
           constraints echoCancellation, autoGainControl, and noiseSuppression,
           apply a default of "false".</li>
       </ul>
@@ -314,7 +294,7 @@
         run, the UA MUST choose the remembered value <var>t</var> if it is
         now a permitted value.
       </p>
-      <p>When setting a contentHint value of "", all remembered values of
+      <p>When setting a {{MediaStreamTrack/contentHint}} value of <code>""</code>, all remembered values of
         <var>t</var> are removed.
       </p>
     </section>
@@ -340,22 +320,22 @@
         "RTCDegradationPreference" class="simple">
           <tbody>
             <tr>
-              <th colspan="2"><code><a>RTCDegradationPreference</a></code> Enumeration description</th>
+              <th colspan="2">{{RTCDegradationPreference}} Enumeration description</th>
             </tr>
             <tr>
-              <td data-tests="RTCRtpParameters-degradationPreference.html"><dfn data-idl><code>maintain-framerate</code></dfn></td>
+              <td data-tests="RTCRtpParameters-degradationPreference.html"><dfn data-idl>maintain-framerate</dfn></td>
               <td>
                 <p>Degrade resolution in order to maintain framerate.</p>
               </td>
             </tr>
             <tr>
-              <td><dfn data-idl><code>maintain-resolution</code></dfn></td>
+              <td><dfn data-idl>maintain-resolution</dfn></td>
               <td>
                 <p>Degrade framerate in order to maintain resolution.</p>
               </td>
             </tr>
             <tr>
-              <td data-tests="RTCRtpParameters-degradationPreference.html"><dfn data-idl><code>balanced</code></dfn></td>
+              <td data-tests="RTCRtpParameters-degradationPreference.html"><dfn data-idl>balanced</dfn></td>
               <td>
                 <p>Degrade a balance of framerate and resolution.</p>
               </td>
@@ -363,22 +343,22 @@
           </tbody>
         </table>
       </div>
-      An attribute is defined for RTCRtpSendParameters that allows this
-      to be explicitly indicated for an RTCRtpSender:
+      An attribute is defined for {{RTCRtpSendParameters}} that allows this
+      to be explicitly indicated for an {{RTCRtpSender}}:
 
       <pre class='idl'>partial dictionary RTCRtpSendParameters {
         RTCDegradationPreference degradationPreference;
        };</pre>
       <section>
-        <h2>Dictionary <code><a>RTCRtpSendParameters</a></code> New Members</h2>
+        <h2>Dictionary {{RTCRtpSendParameters}} New Members</h2>
         <dl>
           <dt data-tests="RTCRtpParameters-degradationPreference.html"><dfn data-idl><code>degradationPreference</code></dfn> of type
-            <span class="idlMemberType"><a>RTCDegradationPreference</a></span>.
+            {{RTCDegradationPreference}}.
           <dd>
             <p>When bandwidth is constrained and the
-              <code><a>RTCRtpSender</a></code> needs to choose between degrading
+              {{RTCRtpSender}} needs to choose between degrading
               resolution or degrading framerate,
-              <code>degradationPreference</code> indicates which is
+              {{RTCRtpSendParameters/degradationPreference}} indicates which is
               preferred.</p>
           </dd>
         </dl>
@@ -386,28 +366,28 @@
     </section>
     <section>
       <h3>Behavior of an RTCPeerConnection</h3>
-      <p>An <a>RTCRtpSender</a> transmitting a MediaStreamTrack for which a
-        contentHint attribute has been
+      <p>An {{RTCRtpSender}} transmitting a {{MediaStreamTrack}} for which a
+        {{MediaStreamTrack/contentHint}} attribute has been
         set MUST use the following degradation preferences, unless an
-        explicit degradationPreference attribute has been set in the sender's
+        explicit {{RTCRtpSendParameters/degradationPreference}} attribute has been set in the sender's
         parameters:
       </p>
       <ul>
-        <li>For a video track with the attribute value "motion",
-          use "maintain-framerate".
+        <li>For a video track with the attribute value <a>"motion"</a>,
+          use {{RTCDegradationPreference/"maintain-framerate"}}.
         </li>
-        <li>For a video track with the attribute value "detail",
-          use "maintain-resolution".
+        <li>For a video track with the attribute value <a>"detail"</a>,
+          use {{RTCDegradationPreference/"maintain-resolution"}}.
         </li>
-        <li>For a video track with the attribute value "text",
-          use "maintain-resolution". In addition, if the
+        <li>For a video track with the attribute value <a>"text"</a>,
+          use {{RTCDegradationPreference/"maintain-resolution"}}. In addition, if the
         encoding codec is AV1, activate encoding tools for "text" mode.
         </li>
       </ul>
     </section>
     <section>
       <h3>Behavior of a MediaStreamRecorder</h3>
-      <p>For a video track with the attribute value "text", if the
+      <p>For a video track with the attribute value <a>"text"</a>, if the
         encoding codec is AV1, activate encoding tools for "text"
         mode.
       </p>
