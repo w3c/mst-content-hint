@@ -37,17 +37,18 @@
 <body>
   <section id="abstract">
     <p>
-      This specification extends {{MediaStreamTrack}} to provide a
-      media-content hint attribute. This optional hint permits
-      {{MediaStreamTrack}} consumers such as <dfn>RTCPeerConnection</dfn>
-      (defined in [[webrtc]]) or <dfn>MediaRecorder</dfn> (defined in
-      [[mediastream-recording]]) to encode or process track media with methods
-      more appropriate to the type of content that is being consumed.
+      This specification extends {{MediaStreamTrack}} to provide an
+      optional hint about the user's preference on how the media should
+      be treated when insufficient resources for perfect reproduction
+      are available.
     </p>
     <p>
-      Adding a media-content hint provides a way for a web application to help
-      track consumers make more informed decision of what encoder parameters and
-      processing algorithms to use on the consumed content.
+      This optional hint permits
+      {{MediaStreamTrack}} sinks such as <dfn>RTCPeerConnection</dfn>
+      (defined in [[webrtc]]) or <dfn>MediaRecorder</dfn> (defined in
+      [[mediastream-recording]]) that process a track's audio or video
+      content to choose processing parameters that are appropriate to the
+      user's preferences.
     </p>
   </section>
   <section id="sotd">
