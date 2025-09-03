@@ -306,16 +306,23 @@
     <section>
       <h3>Degradation preference when encoding</h3>
       <p>
-        When encoding video, and some constraint (bandwidth, CPU) prevents
-        encoding at the configured framerate and resolution, the encoder
-        must make a choice on how to modify the encoding parameters.
+        When encoding video, the encoder is configured with a number of
+        parameters; in this text, we'll call out resolution, framerate and
+        "encoding parameters"; the latter is {{implementation-defined}}, but can
+        influence both the quality of the resulting video, the resources
+        required to encode, and the bitrate that the video consumes. Here, we
+        talk about it as if a higher value gives better quality, but higher
+        bitrate. Normally, the UA will try to maximize all of those to give an
+        optimal user experience.
       </p>
       <p>
-        In an unlimited scenario, higher resolution and framerate allows for
-        higher quality, but if bandwidth is limited, reducing framerate and
-        resolution can in many cases allow encoding parameters to be adjusted in such a way that
-        the overall video quality is incresaed for a given
-        target bitrate.
+        When some constraint (bandwidth, CPU) prevents encoding with the very
+        best parameters, the encoder must make a choice on how to modify the
+        encoding parameters. In an unlimited scenario, higher resolution and
+        framerate allows for higher quality, but if bandwidth is limited,
+        reducing framerate and resolution can in many cases allow encoding
+        parameters to be adjusted in such a way that the overall video quality
+        is incresaed for a given target bitrate.
       </p>
       <p>
         This section defines terms to describe the choice, and an enum
@@ -368,10 +375,11 @@
               <td>
                 <p>
                   Prefer to maintain framerate and resolution even if this
-                  requires adjusting encoding parameters to yield a suboptimal video quality. The user agent SHOULD NOT
-                  prefer reducing the framerate or resolution for quality
-                  reasons, but MAY drop frames before encoding if necessary not to overuse
-                  network and encoder resources.
+                  requires adjusting encoding parameters to yield a suboptimal
+                  video quality. The user agent SHOULD NOT prefer reducing the
+                  framerate or resolution for quality reasons, but MAY drop
+                  frames before encoding if necessary not to overuse network and
+                  encoder resources.
                 </p>
               </td>
             </tr>
