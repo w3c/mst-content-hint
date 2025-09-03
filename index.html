@@ -311,6 +311,12 @@
         must make a choice on how to modify the encoding parameters.
       </p>
       <p>
+        In an unlimited scenario, higher resolution and framerate allows for
+        higher quality, but if bandwidth is limited, reducing framerate and
+        resolution can in many cases increase the video quality for a given
+        target bitrate.
+      </p>
+      <p>
         This section defines terms to describe the choice, and an enum
         that can be used to indicate that choice in an API.
       </p>
@@ -319,7 +325,8 @@
 >enum RTCDegradationPreference {
   "maintain-framerate",
   "maintain-resolution",
-  "balanced"
+  "balanced",
+  "maintain-framerate-and-resolution"
 };</pre>
         <table data-link-for="RTCDegradationPreference" data-dfn-for=
                "RTCDegradationPreference" class="simple">
@@ -333,19 +340,38 @@
             <tr>
               <td data-tests="RTCRtpParameters-degradationPreference.html"><dfn data-idl>maintain-framerate</dfn></td>
               <td>
-                <p>Degrade resolution in order to maintain framerate.</p>
+                <p>Degrade resolution in order to maintain framerate. The user
+                agent SHOULD prefer reducing the resolution in order to optimize
+                for video quality and performance within network constraints.</p>
               </td>
             </tr>
             <tr>
               <td><dfn data-idl>maintain-resolution</dfn></td>
               <td>
-                <p>Degrade framerate in order to maintain resolution.</p>
+                <p>Degrade framerate in order to maintain resolution. The user
+                agent SHOULD prefer reducing the framerate in order to optimize
+                for video quality and performance within network constraints.</p>
               </td>
             </tr>
             <tr>
               <td data-tests="RTCRtpParameters-degradationPreference.html"><dfn data-idl>balanced</dfn></td>
               <td>
-                <p>Degrade a balance of framerate and resolution.</p>
+                <p>Degrade a balance of framerate and resolution. The user agent
+                SHOULD prefer reducing a balance of framerate and resolution in
+                order to optimize for video quality and performance within
+                network constraints.</p>
+              </td>
+            </tr>
+            <tr>
+              <td data-tests="RTCRtpParameters-degradationPreference.html"><dfn data-idl>maintain-framerate-and-resolution</dfn></td>
+              <td>
+                <p>
+                  Prefer to maintain framerate and resolution even if this
+                  yields suboptimal video quality. The user agent SHOULD NOT
+                  prefer reducing the framerate or resolution for quality
+                  reasons, but SHOULD drop frames if necessary not to overuse
+                  network and encoder resources.
+                </p>
               </td>
             </tr>
           </tbody>
