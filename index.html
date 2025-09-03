@@ -313,7 +313,8 @@
       <p>
         In an unlimited scenario, higher resolution and framerate allows for
         higher quality, but if bandwidth is limited, reducing framerate and
-        resolution can in many cases increase the video quality for a given
+        resolution can in many cases allow encoding parameters to be adjusted in such a way that
+        the overall video quality is incresaed for a given
         target bitrate.
       </p>
       <p>
@@ -367,9 +368,9 @@
               <td>
                 <p>
                   Prefer to maintain framerate and resolution even if this
-                  yields suboptimal video quality. The user agent SHOULD NOT
+                  requires adjusting encoding parameters to yield a suboptimal video quality. The user agent SHOULD NOT
                   prefer reducing the framerate or resolution for quality
-                  reasons, but SHOULD drop frames if necessary not to overuse
+                  reasons, but MAY drop frames before encoding if necessary not to overuse
                   network and encoder resources.
                 </p>
               </td>
