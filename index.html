@@ -308,7 +308,7 @@
       <p>
         When encoding video, the encoder is configured with a number of
         parameters; in this text, we'll call out resolution, framerate and
-        "encoding parameters"; the latter is {{implementation-defined}}, but can
+        "encoding parameters"; the latter is implementation-defined, but can
         influence both the quality of the resulting video, the resources
         required to encode, and the bitrate that the video consumes. Here, we
         talk about it as if a higher value gives better quality, but higher
@@ -374,11 +374,10 @@
               <td data-tests="RTCRtpParameters-degradationPreference.html"><dfn data-idl>maintain-framerate-and-resolution</dfn></td>
               <td>
                 <p>Maintain framerate and resolution regardless of video
-                  quality. The user agent SHOULD NOT prefer reducing the
-                  framerate or resolution for quality and performance reasons,
-                  but MAY drop frames before encoding if necessary not to
-                  overuse network and encoder resources.
-                </p>
+                quality. The user agent SHOULD NOT prefer reducing the framerate
+                or resolution for quality and performance reasons, but MAY drop
+                frames before encoding if necessary not to overuse network and
+                encoder resources.</p>
               </td>
             </tr>
           </tbody>
