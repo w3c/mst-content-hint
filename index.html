@@ -23,7 +23,7 @@
     "shortName": "mst-content-hint",
     "edDraftURI": "https://w3c.github.io/mst-content-hint/",
     "subjectPrefix": "[mst-content-hint]",
-    xref: ["mediacapture-streams"],
+    xref: ["mediacapture-streams", "webrtc", "infra"],
       group:           "webrtc",
       // name (without the @w3c.org) of the public mailing to which comments are due
       wgPublicList: "public-media-capture",
@@ -119,13 +119,6 @@
     </p>
   </section>
   <section id="conformance">
-  </section>
-  <section id="terminology">
-    <h2>Terminology</h2>
-    <p> The terms <dfn data-cite="!WEBRTC#dom-rtcrtpsender">RTCRtpSender</dfn>
-      and <dfn data-cite="!WEBRTC#dom-rtcrtpsendparameters">RTCRtpSendParameters</dfn>
-      are defined in [[!WEBRTC]].
-    </p>
   </section>
   <section data-link-for="MediaStreamTrack" id="mediastreamtrack-extension">
     <h2>Extension to MediaStreamTrack</h2>
@@ -308,7 +301,7 @@
       <p>
         When encoding video, the encoder is configured with a number of
         parameters; in this text, we'll call out resolution, framerate and
-        "encoding parameters"; the latter is implementation-defined, but can
+        "encoding parameters"; the latter is [=implementation-defined=], but can
         influence both the quality of the resulting video, the resources
         required to encode, and the bitrate that the video consumes. Here, we
         talk about it as if a higher value gives better quality, but higher
